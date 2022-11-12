@@ -4,31 +4,32 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class IndexController {
 
     @GetMapping("/")
-    public @ResponseBody String getIndex() {
+    public  String getIndex() {
         return "this is working";
     }
 
     @GetMapping("/admin")
-    public @ResponseBody String adminName() {
+    public  String adminName() {
         return "I am an Admin";
     }
 
     @GetMapping("/user")
-    public @ResponseBody String user() {
+    public String user() {
         return "I am an NORMAl";
     }
     @PostMapping("/success")
-    public @ResponseBody String success() {
+    public  String success() {
         return "Successfully logged in";
     }
 
     @PostMapping("/failure")
-    public @ResponseBody String failure() {
+    public String failure() {
         return "Failed logged in";
     }
 }
