@@ -6,11 +6,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
+
 
 @EnableWebSecurity
 @AllArgsConstructor
@@ -23,7 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         /**
          * This is meant for in memory authentication
          */
-        auth.inMemoryAuthentication()
+       /* auth.inMemoryAuthentication()
                 .withUser("dluffy")
                 .password(getEncoder().encode("juu"))
                 .roles("USER")
@@ -31,16 +31,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("jhey")
                 .password(getEncoder().encode("jhey"))
                 .roles("ADMIN");
-
+*/
         /**
          * This is a jdbc authentication
          */
 
         auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .withDefaultSchema()
-                .withUser(User.withUsername("dluffy").password(encodePassword("juu")).roles("USER"))
-                .withUser(User.withUsername("jhey").password(encodePassword("jhey")).roles("ADMIN","USER"));
+                .dataSource(dataSource);
     }
 
 
@@ -54,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * There are two approaches. The first one is using Lambda DSL(domain specific language). this approach uses
          * lambda expressions and need not use the 'and' to return the object
          */
-        http
+      /*  http
                 .authorizeRequests(authorizeRequests ->
                         authorizeRequests
                                 .antMatchers("/admin").hasRole("ADMIN")
@@ -68,10 +65,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                                 .failureForwardUrl("/failure")
                                 .successForwardUrl("/success")
                                 .permitAll()
-                );
+                );*/
 
 
-/*
         http.authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
@@ -80,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                    .failureForwardUrl("/failure")
                    .successForwardUrl("/success")
-        ;*/
+        ;
 
     }
 
