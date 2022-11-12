@@ -15,10 +15,9 @@ import javax.sql.DataSource;
 
 
 @EnableWebSecurity
-//@AllArgsConstructor
+@AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-   @Autowired
-    private  DataSource dataSource;
+    private  final DataSource dataSource;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -39,7 +38,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          */
 
         auth.jdbcAuthentication()
-                .dataSource(dataSource);
+                .dataSource(dataSource)
+                .usersByUsernameQuery("SELECT username,password,enabled FROM USERS WHERE username = ?")
+                .authoritiesByUsernameQuery("SELECT username,authority FROM authority WHERE username = ?");
     }
 
 
