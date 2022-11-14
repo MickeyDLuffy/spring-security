@@ -18,6 +18,7 @@ import javax.sql.DataSource;
 @AllArgsConstructor
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private  final DataSource dataSource;
+    private final UserDetailsServiceImp userDetailsService;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -37,10 +38,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          * This is a jdbc authentication
          */
 
-        auth.jdbcAuthentication()
-                .dataSource(dataSource)
-                .usersByUsernameQuery("SELECT username,password,enabled FROM USERS WHERE username = ?")
-                .authoritiesByUsernameQuery("SELECT username,authority FROM authority WHERE username = ?");
+//        auth.jdbcAuthentication()
+//                .dataSource(dataSource)
+//                .usersByUsernameQuery("SELECT username,password,enabled FROM USERS WHERE username = ?")
+//                .authoritiesByUsernameQuery("SELECT username,authority FROM authority WHERE username = ?");
+
+        /**
+         * jpa authentication using user details service.
+         */
+
+        auth.userDetailsService(userDetailsService);
     }
 
 
@@ -74,12 +81,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/admin").hasRole("ADMIN")
                 .antMatchers("/user").hasAnyRole("USER", "ADMIN")
-//                .antMatchers("/h2-console/**").permitAll()
-                .antMatchers("/", "/**","/h2-console/**").permitAll()
-                .and().csrf().ignoringAntMatchers("/h2-console/**")
                 .and()
                 .formLogin()
-                   .failureForwardUrl("/failure")
                    .successForwardUrl("/success");
         http.headers().frameOptions().disable();
         ;
