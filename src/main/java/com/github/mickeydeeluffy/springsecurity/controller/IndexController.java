@@ -1,10 +1,13 @@
 package com.github.mickeydeeluffy.springsecurity.controller;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
 
 @RestController
 public class IndexController {
@@ -31,5 +34,10 @@ public class IndexController {
     @PostMapping("/failure")
     public String failure() {
         return "Failed logged in";
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<Map<String,String>> getTest(){
+        return ResponseEntity.ok(Map.of("test","value"));
     }
 }
